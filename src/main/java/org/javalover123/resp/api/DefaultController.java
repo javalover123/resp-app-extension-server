@@ -14,10 +14,10 @@ package org.javalover123.resp.api;
 
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
-import io.micronaut.core.convert.format.Format;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import org.javalover123.resp.service.BaseRespFormatter;
+import org.javalover123.resp.service.JsonRespFormatter;
 import org.javalover123.resp.service.TimestampRespFormatter;
 import org.javalover123.resp.util.JsonUtil;
 import org.slf4j.Logger;
@@ -30,13 +30,11 @@ import org.javalover123.resp.model.DataFormattersIdDecodePost400Response;
 import org.javalover123.resp.model.DecodePayload;
 import org.javalover123.resp.model.EncodePayload;
 import javax.annotation.Generated;
-import java.io.IOException;
 import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -55,6 +53,7 @@ public class DefaultController {
     private Map<DataFormatter, BaseRespFormatter> initFormatterMap() {
         Map<DataFormatter, BaseRespFormatter> formatterMap = new LinkedHashMap<>();
         formatterMap.put(new DataFormatter("timestamp", "Timestamp"), new TimestampRespFormatter());
+        formatterMap.put(new DataFormatter("JSON-Timestamp", "JSON Timestamp"), new JsonRespFormatter());
         return formatterMap;
     }
 
@@ -120,7 +119,7 @@ public class DefaultController {
             BaseRespFormatter formatter = fetchFormatter(id);
             return Mono.just(formatter.decode(decodePayload));
         } catch (Exception e) {
-            log.error(id + "|decode error|" + decodePayload, e);
+            log.error(id + "|decode error|" + JsonUtil.toJson(decodePayload), e);
             return error(e.getMessage());
         }
     }
