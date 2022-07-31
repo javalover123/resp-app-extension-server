@@ -96,7 +96,7 @@ public class JsonRespFormatter extends BaseRespFormatter {
         if (matcher.matches() && (length == 13 || length == 19)) {
             final long mills = Long.parseLong(str.substring(0, 13));
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(mills), ZoneId.systemDefault());
-            return JsonUtil.getFormatter().format(dateTime);
+            return dateTime;
         }
         return value;
     }

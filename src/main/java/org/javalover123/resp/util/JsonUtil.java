@@ -28,6 +28,7 @@
 package org.javalover123.resp.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.javalover123.resp.config.JacksonCustomizerConfig;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -44,9 +45,9 @@ public class JsonUtil {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = JacksonCustomizerConfig.customize(new ObjectMapper(), DEFAULT_DATE_FORMAT);
 
-    private static final ObjectMapper MAPPER_PRETTY = new ObjectMapper();
+    private static final ObjectMapper MAPPER_PRETTY = JacksonCustomizerConfig.customize(new ObjectMapper(), DEFAULT_DATE_FORMAT);
 
     public static String toJson(Object obj) {
         return toJsonStr(obj);
