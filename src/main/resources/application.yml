@@ -1,0 +1,26 @@
+
+micronaut:
+  application:
+    name: resp-app-extension-server
+  server:
+    port: 8080
+    context-path: "/"
+    netty:
+      accessLogger:
+        enabled: true
+        logFormat: '%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"'
+  security:
+    enabled: false
+    # authentication: bearer | cookie | session | idtoken
+    basic:
+      users:
+        - admin: admin
+
+jackson:
+  serialization:
+    writeEnumsUsingToString: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    readEnumsUsingToString: true
+    failOnUnknownProperties: false
+    failOnInvalidSubtype: false
